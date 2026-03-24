@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book App</title>
+<style>
+body{font-family:Arial;padding:20px;background:#f4f4f4}
+.book{background:#fff;padding:10px;margin:10px 0;border-radius:5px}
+</style>
+</head>
+<body>
+<h1>📚 My Book App</h1>
+<input id="title" placeholder="Book title">
+<button onclick="addBook()">Add Book</button>
+<div id="list"></div>
+<script>
+function addBook(){
+ let title=document.getElementById('title').value;
+ if(title==='') return;
+ let div=document.createElement('div');
+ div.className='book';
+ div.innerText=title;
+ document.getElementById('list').appendChild(div);
+ document.getElementById('title').value='';
+}
+</script>
+</body>
+</html>
