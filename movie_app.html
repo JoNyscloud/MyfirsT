@@ -40,5 +40,49 @@
 
     displayMovies(movies);
   </script>
+<script>
+  const movies = [
+    {title: "Inception", img: "https://via.placeholder.com/150"},
+    {title: "Avengers", img: "https://via.placeholder.com/150"},
+    {title: "Titanic", img: "https://via.placeholder.com/150"}
+  ];
+
+  function displayMovies(list) {
+    const container = document.getElementById("movies");
+    container.innerHTML = "";
+
+    if (list.length === 0) {
+      container.innerHTML = "<p>No movie found 😢</p>";
+      return;
+    }
+
+    list.forEach(function(m) {
+      const div = document.createElement("div");
+      div.className = "movie";
+
+      div.innerHTML = `
+        <h3>${m.title}</h3>
+        <img src="${m.img}">
+      `;
+
+      container.appendChild(div);
+    });
+  }
+
+  function searchMovie() {
+    const value = document.getElementById("search").value.toLowerCase();
+
+    const filtered = movies.filter(function(m) {
+      return m.title.toLowerCase().includes(value);
+    });
+
+    displayMovies(filtered);
+  }
+
+  // Run after page fully loads
+  window.onload = function() {
+    displayMovies(movies);
+  };
+     </script>
 </body>
 </html>
