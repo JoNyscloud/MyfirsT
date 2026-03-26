@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyFlix API</title>
+  <style>
+    body { margin:0; font-family: Arial; background:#141414; color:white; }
+    header { padding:15px; font-size:24px; font-weight:bold; }
+    #search { width:90%; padding:10px; margin:10px; }
+    .row { display:flex; overflow-x:auto; padding:10px; }
+    .movie { min-width:150px; margin-right:10px; }
+    .movie img { width:100%; border-radius:5px; }
+  </style>
+</head>
+<body>
+  <header>🎬 MyFlix API</header>
+  <input type="text" id="search" placeholder="Search movies..." onkeyup="searchMovie()" />
+  <div class="row" id="movies"></div>
+
+  <script>
+    const API_KEY = "YOUR_API_KEY";
+
+    async function fetchMovies(query) {
+      const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`);
+      const data = await res.json();
+      displayMovies(data.Search || []);
+    }
+
+    function displayMovies(list) {
+      const container = document.getElementById("movies");
+      container.innerHTML = "";
+
+      list.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "movie";
+        div.innerHTML = `<img src="${m.Poster}"><p>${m.Title}</p>`;
+        container.appendChild(div);
+      });
+    }
+
+    function searchMovie() {
+      const value = document.getElementById("search").value;
+      if (value.length > 2) {
+        fetchMovies(value);
+      }
+    }
+
+    fetchMovies("batman");
+  </script>
+</body>
+</html>
