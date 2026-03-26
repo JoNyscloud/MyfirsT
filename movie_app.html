@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie App</title>
+  <style>
+    body { font-family: Arial; background: #111; color: white; text-align: center; }
+    .movie { margin: 20px; padding: 10px; border: 1px solid #444; }
+    img { width: 150px; }
+  </style>
+</head>
+<body>
+  <h1>🎬 My Movie App</h1>
+  <input type="text" id="search" placeholder="Search movie..." onkeyup="searchMovie()"/>
+  <div id="movies"></div>
+
+  <script>
+    const movies = [
+      {title: "Inception", img: "https://via.placeholder.com/150"},
+      {title: "Avengers", img: "https://via.placeholder.com/150"},
+      {title: "Titanic", img: "https://via.placeholder.com/150"}
+    ];
+
+    function displayMovies(list) {
+      const container = document.getElementById("movies");
+      container.innerHTML = "";
+      list.forEach(m => {
+        container.innerHTML += `
+          <div class="movie">
+            <h3>${m.title}</h3>
+            <img src="${m.img}"/>
+          </div>`;
+      });
+    }
+
+    function searchMovie() {
+      const value = document.getElementById("search").value.toLowerCase();
+      const filtered = movies.filter(m => m.title.toLowerCase().includes(value));
+      displayMovies(filtered);
+    }
+
+    displayMovies(movies);
+  </script>
+</body>
+</html>
