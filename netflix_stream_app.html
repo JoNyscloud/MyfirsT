@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyFlix Streaming</title>
+  <style>
+    body { margin:0; font-family: Arial; background:#000; color:white; }
+    header { padding:15px; font-size:24px; }
+    #search { width:90%; padding:10px; margin:10px; }
+    .row { display:flex; overflow-x:auto; padding:10px; }
+    .movie { min-width:150px; margin-right:10px; cursor:pointer; }
+    .movie img { width:100%; border-radius:5px; }
+    #player { width:100%; height:200px; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <header>🎬 MyFlix Stream</header>
+  <input type="text" id="search" placeholder="Search movies..." onkeyup="searchMovie()" />
+
+  <iframe id="player" src="" frameborder="0" allowfullscreen></iframe>
+
+  <div class="row" id="movies"></div>
+
+  <script>
+    const API_KEY = "YOUR_API_KEY";
+
+    async function fetchMovies(query) {
+      const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`);
+      const data = await res.json();
+      displayMovies(data.Search || []);
+    }
+
+    function displayMovies(list) {
+      const container = document.getElementById("movies");
+      container.innerHTML = "";
+
+      list.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "movie";
+        div.innerHTML = `<img src="${m.Poster}"><p>${m.Title}</p>`;
+
+        div.onclick = function() {
+          playMovie(m.Title);
+        };
+
+        container.appendChild(div);
+      });
+    }
+
+    function playMovie(title) {
+      const player = document.getElementById("player");
+      const query = encodeURIComponent(title + " trailer");
+      player.src = `https://www.youtube.com/embed?listType=search&list=${query}`;
+    }
+
+    function searchMovie() {
+      const value = document.getElementById("search").value;
+      if (value.length > 2) {
+        fetchMovies(value);
+      }
+    }
+
+    fetchMovies("avengers");
+  </script>
+</body>
+</html>
